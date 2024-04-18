@@ -1,0 +1,26 @@
+body {
+    height: 100vh;
+    background-image: linear-gradient(to bottom, rgb(7, 0, 61), rgb(4, 0, 31));
+    padding: 12px 12px;
+    display: flex;
+}
+
+
+header #logo {
+    max-width: 100%;    /* Ensures the logo will not exceed the width of its container */
+    height: auto;       /* Maintains aspect ratio */
+    width: 2vw;        /* Adjusts the width of the logo relative to viewport width */
+    min-width: 50px;    /* Minimum size of the logo */
+    display: block;     /* Removes bottom space/margin of the image */
+
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 32px;
+    grid-row-gap: 32px;
+
+    border: solid 1px white;
+    }
