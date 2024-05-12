@@ -1,23 +1,36 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Garden</title>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
+    <title>WebSocket Client</title>
 </head>
 <body>
-    <header>
-        <img src="img/SVG/cnvs-logo-wht_stkd.svg" alt="cnvs logo" id="logo">
-    </header>
+    <h1>WebSocket Client</h1>
+    <textarea id="message" rows="3" placeholder="Enter message"></textarea>
+    <button onclick="sendMessage()">Send Message</button>
+    <div id="response"></div>
 
-    <section>
-        <div id="grid-container"></div>
-    </section>
+    <script>
+        const socket = new WebSocket("ws://localhost:8765");
 
-    <footer>
+        socket.onopen = function(event) {
+            console.log("WebSocket connection established");
+        };
 
-    </footer>
+        socket.onmessage = function(event) {
+            const responseDiv = document.getElementById("response");
+            responseDiv.textContent = event.data;
+        };
+
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value;
+
+            socket.send(message);
+        }
+    </script>
 </body>
 </html>
