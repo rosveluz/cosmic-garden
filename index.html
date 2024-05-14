@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Garden V2</title>
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="dataserver.js"></script>
-    <script type="text/javascript" src="script.js" async></script>
+    <!-- Load Three.js from CDN first -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Then load your custom script, removed async to ensure it loads after Three.js -->
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
     <canvas id="torusCanvas"></canvas>
