@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var canvas = document.getElementById('torusCanvas');
     var renderer = new THREE.WebGLRenderer({ canvas: canvas });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(null);
 
     // Define a custom helical path using THREE.Curve
     var customPath = new THREE.Curve();

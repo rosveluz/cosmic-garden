@@ -1,8 +1,8 @@
 body {
     height: 100vh;
-    background-image: linear-gradient(to bottom, rgb(7, 0, 61), rgb(4, 0, 31));
-    padding: 12px 12px;
-    display: flex;
+    /* background-image: linear-gradient(to bottom, rgb(7, 0, 61), rgb(4, 0, 31)); */
+    /* padding: 12px 12px; */
+    /* display: flex; */
 }
 
 
@@ -24,3 +24,10 @@ header #logo {
 
     border: solid 1px white;
     }
+
+#torusCanvas {
+    width: 100%;
+    height: 100%;
+    display: block; /* Ensures the canvas behaves like a block element */
+}
+    
