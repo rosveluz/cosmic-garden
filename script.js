@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(helixPath);
 
     // Particle system with glow
-    var particleCount = 1000; // Initial particle count
+    var particleCount = 100; // Initial particle count
     var particlePositions = new Float32Array(particleCount * 3); // Placeholder for particle positions
     var particleTimes = new Float32Array(particleCount); // Placeholder for particle times
 
