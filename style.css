@@ -1,5 +1,6 @@
 body {
     height: 100vh;
+    margin: 0; 
     /* background-image: linear-gradient(to bottom, rgb(7, 0, 61), rgb(4, 0, 31)); */
     /* padding: 12px 12px; */
     /* display: flex; */
