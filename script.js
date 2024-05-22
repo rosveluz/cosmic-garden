@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('start-button');
+    const audio = new Audio('https://rosveluz.github.io/cosmicgarden/assets/final%20final.mp3');
+    const video = document.getElementById('bg-video');
+
+    startButton.addEventListener('click', () => {
+        audio.loop = true;
+        audio.play().catch(error => console.error('Audio play failed:', error));
+        
+        video.play().catch(error => console.error('Video play failed:', error));
+
+        startButton.style.display = 'none'; // Hide the start button after interaction
+    });
+
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var canvas = document.getElementById('torusCanvas');
@@ -66,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < particleCount; i++) {
         var t = Math.random();
         particleTimes[i] = t;
-        particleSpeeds[i] = Math.random() * 0.0001 + 0.00001; // Random speed between 0.00001 and 0.00011
+        particleSpeeds[i] = Math.random() * 0.0001 + 0.00001;
         var point = customPath.getPoint(t);
         particlePositions[i * 3] = point.x;
         particlePositions[i * 3 + 1] = point.y;
@@ -82,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateParticles() {
         for (let i = 0; i < particleTimes.length; i++) {
-            particleTimes[i] += particleSpeeds[i]; // Increment particle time by its own speed
-            if (particleTimes[i] > 1) particleTimes[i] -= 1; // Loop the time
+            particleTimes[i] += particleSpeeds[i];
+            if (particleTimes[i] > 1) particleTimes[i] -= 1;
             var point = customPath.getPoint(particleTimes[i]);
             particles[i].position.set(point.x, point.y, point.z);
         }
