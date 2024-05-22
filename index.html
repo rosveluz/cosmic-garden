@@ -1,36 +1,19 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Client</title>
+    <title>Cosmic Garden V2</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="text/javascript" src="script.js" defer></script>
 </head>
 <body>
-    <h1>WebSocket Client</h1>
-    <textarea id="message" rows="3" placeholder="Enter message"></textarea>
-    <button onclick="sendMessage()">Send Message</button>
-    <div id="response"></div>
-
-    <script>
-        const socket = new WebSocket("ws://localhost:8765");
-
-        socket.onopen = function(event) {
-            console.log("WebSocket connection established");
-        };
-
-        socket.onmessage = function(event) {
-            const responseDiv = document.getElementById("response");
-            responseDiv.textContent = event.data;
-        };
-
-        function sendMessage() {
-            const messageInput = document.getElementById("message");
-            const message = messageInput.value;
-
-            socket.send(message);
-        }
-    </script>
+    <video id="bg-video" autoplay loop muted>
+        <source src="assets/final%20file%20video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <canvas id="torusCanvas"></canvas>
+    <button id="start-button">Start</button>
 </body>
 </html>
