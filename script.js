@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(null);
 
-    // Function to create glow texture
     function createGlowTexture(color) {
         const canvas = document.createElement('canvas');
         canvas.width = 128;
@@ -20,14 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return new THREE.CanvasTexture(canvas);
     }
 
-    // Create the glow texture
     var glowTexture = createGlowTexture(new THREE.Color(0xffffff));
 
-    // Define a custom helical path using THREE.Curve
     var customPath = new THREE.Curve();
     customPath.getPoint = function (t) {
-        var radius = 12; // Radius of the whole torus
-        var tubeRadius = 3; // This will affect how far out the helix extends
+        var radius = 12;
+        var tubeRadius = 3;
         var angle = 2 * Math.PI * t;
         var x = (radius + tubeRadius * Math.cos(20 * angle)) * Math.cos(3 * angle);
         var y = (radius + tubeRadius * Math.cos(20 * angle)) * Math.sin(3 * angle);
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return new THREE.Vector3(x, y, z);
     };
 
-    // Create a geometry and line material for the helix path
     var points = [];
     for (var i = 0; i < 1000; i++) {
         var t = i / 999;
@@ -46,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var helixPath = new THREE.Line(helixGeometry, helixMaterial);
     scene.add(helixPath);
 
-    // Particle system with glow
-    var particleCount = 100; // Initial particle count
-    var particlePositions = new Float32Array(particleCount * 3); // Placeholder for particle positions
-    var particleTimes = new Float32Array(particleCount); // Placeholder for particle times
+    var particleCount = 100;
+    var particlePositions = new Float32Array(particleCount * 3);
+    var particleTimes = new Float32Array(particleCount);
+    var particleSpeeds = new Float32Array(particleCount);
 
     var pMaterial = new THREE.SpriteMaterial({
         map: glowTexture,
@@ -67,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
         particles.push(sprite);
     }
 
-    // Initialize particle positions and times
     for (let i = 0; i < particleCount; i++) {
         var t = Math.random();
         particleTimes[i] = t;
+        particleSpeeds[i] = Math.random() * 0.0001 + 0.00001; // Random speed between 0.00001 and 0.00011
         var point = customPath.getPoint(t);
         particlePositions[i * 3] = point.x;
         particlePositions[i * 3 + 1] = point.y;
@@ -82,57 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
     camera.position.z = 12;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    // Hide the helix path
     helixPath.visible = false;
-
-    var socket = new WebSocket('ws://127.0.0.1:8765/');
-    socket.onmessage = function (event) {
-        var audioData = JSON.parse(event.data);
-        console.log('Received audio data:', audioData);
-        adjustParticles(audioData);
-    };
-
-    socket.onerror = function (error) {
-        console.error('WebSocket Error:', error);
-    };
-
-    socket.onopen = function () {
-        console.log('WebSocket connection established');
-    };
-
-    socket.onclose = function () {
-        console.log('WebSocket connection closed');
-    };
-
-    function adjustParticles(audioData) {
-        var particleCount = mapAmplitudeToCount(audioData.amplitude);
-        console.log('Number of particles:', particleCount); // Debugging info
-
-        for (let i = 0; i < particleCount; i++) {
-            var t = Math.random();
-            particleTimes[i] = t;
-            var point = customPath.getPoint(t);
-            particles[i].position.set(point.x, point.y, point.z);
-            particles[i].scale.setScalar(mapFrequencyToSize(audioData.frequency));
-            particles[i].material.opacity = mapFrequencyToGlow(audioData.frequency);
-        }
-    }
-
-    function mapFrequencyToSize(frequency) {
-        return Math.random() * (60 - 20) + 20; // Random size between 20 and 60
-    }
-
-    function mapFrequencyToGlow(frequency) {
-        return Math.min(frequency / 100, 1); // Map frequency to opacity for glow effect
-    }
-
-    function mapAmplitudeToCount(amplitude) {
-        return Math.floor(2 + Math.random() * (40 - 2) * amplitude / 10); // Random count based on amplitude
-    }
 
     function updateParticles() {
         for (let i = 0; i < particleTimes.length; i++) {
-            particleTimes[i] += 0.001; // Increment time
+            particleTimes[i] += particleSpeeds[i]; // Increment particle time by its own speed
             if (particleTimes[i] > 1) particleTimes[i] -= 1; // Loop the time
             var point = customPath.getPoint(particleTimes[i]);
             particles[i].position.set(point.x, point.y, point.z);
@@ -141,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animate() {
         requestAnimationFrame(animate);
-        updateParticles(); // Update particle positions
+        updateParticles();
         renderer.render(scene, camera);
     }
 
