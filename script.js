@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     var canvas = document.getElementById('torusCanvas');
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas });
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true }); // Set alpha to true
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(null);
+    renderer.setClearColor(0x000000, 0); // Set the clear color to black with 0 opacity
 
     function createGlowTexture(color) {
         const canvas = document.createElement('canvas');
